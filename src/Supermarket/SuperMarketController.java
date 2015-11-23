@@ -30,15 +30,20 @@ public class SuperMarketController {
         Random randomNumber = new Random(); // Usamos un random para asignar el cliente a nuestras cajas
 
         for(int iterador = 0; iterador < numeroClientes; iterador++){
-            String cliente = "Cliente ".concat(String.valueOf(iterador));    // Le da nombre al cliente con la misma posiciÃ³n del iterador
-            Cliente clientes = new Cliente(cliente, randomNumber.nextInt(numeroCajas), caja);   // Le asigna una caja usando el random
+            String nombreCliente = "Cliente ".concat(String.valueOf(iterador));    // Le da nombre al cliente con la misma posición del iterador
+            Cliente clientes = new Cliente(nombreCliente, randomNumber.nextInt(numeroCajas), caja);   // Le asigna una caja usando el random
             Thread hilo = new Thread(clientes); // Creamos el hilo
             hilo.start();  // Y lo empezamos
-            tiempoMedio = tiempoMedio + clientes.getTiempoMedio();  // Asignamos el timepo medio a nuestra variable de tiempoMedio
         }
-
+        
+        Thread.sleep(3000);	// Esperamos unos segundos hasta que acaben todas las operaciones
+        
+        System.out.println("-----------------------------------------------------------------------------");
+        
         System.out.println("La caja de hoy ha sido: " + SuperMarketController.getCaja().getGanancias());
-        System.out.println("El tiempo medio de espera por cliente ha sido: " + tiempoMedio / SuperMarketController.numeroClientes);
+        System.out.println("El tiempo medio de espera por cliente ha sido: " + tiempoMedio / numeroClientes);
+        
+        System.out.println("-----------------------------------------------------------------------------");
     }
 
     // Getters
@@ -57,5 +62,12 @@ public class SuperMarketController {
 
     public static Caja getCaja() {
         return caja;
+    }
+    
+    
+    // Setters
+    
+    public static void setTiempoMedio(double tiempo){
+    	tiempoMedio = tiempoMedio + tiempo;
     }
 }
